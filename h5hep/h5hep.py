@@ -18,9 +18,16 @@ def hd5events(filename=None,verbose=False,select_key_tags=None):
     names = []
 
     ourdata = {}
+    ourdata['counters'] = {}
+    ourdata['list_of_counters'] = []
     event = {}
 
     for name in f:
+
+        counter = f[name].attrs['index']
+        ourdata['counters'][name] = counter
+        ourdata['list_of_counters'].append(counter)
+
         names.append(name)
 
         if verbose==True:
@@ -51,7 +58,8 @@ def hd5events(filename=None,verbose=False,select_key_tags=None):
                 print(data)
 
             #'''
-            if data=="num":
+            #if data=="num":
+            if data==counter:
                 indexgroupname = "%s/%s" % (name,"index")
                 index = np.zeros(len(ourdata[groupname]),dtype=int)
                 start = 0
@@ -74,7 +82,9 @@ def get_event(event,data,n=0):
 
     for key in keys:
 
-        if "num" in key:
+        #if "num" in key:
+        # IS THERE A WAY THAT THIS COULD BE FASTER?
+        if key in data['list_of_counters']:
             event[key] = data[key][n]
 
         elif "num" not in key and "index" not in key:# and 'Jets' in key:
