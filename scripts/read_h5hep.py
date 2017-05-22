@@ -47,7 +47,7 @@ for i in range(0,nevents):
 print(len(energies))
 
 plt.figure()
-plt.hist(energies,bins=100,range=(0,500))
+plt.hist(energies,bins=100,range=(0,1))
 
 plt.show()
 

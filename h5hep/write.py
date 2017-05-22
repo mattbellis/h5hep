@@ -34,24 +34,21 @@ def create_single_event(data):
 # This adds a group in the dictionary, similar to
 # a la CreateBranch in ROOT
 ################################################################################
-def create_group(data, groupname, index=None):
+def create_group(data, groupname, counter=None):
 
     keys = data.keys()
 
-    # Put the index in the dictionary first.
+    # Put the counter in the dictionary first.
     '''
-    if index is not None:
-        data['counters'][groupname] = index
+    if counter is not None:
+        data['counters'][groupname] = counter
         keyfound = False
         for k in keys:
-            if index == k:
+            if counter == k:
                 keyfound = True
         if keyfound == False:
-            data[index] = []
+            data[counter] = []
     '''
-
-        #indexkey = "%sindex" % (groupname)
-        #data[indexkey] = index
 
     # Then put the group and any datasets in there next.
     keyfound = False
@@ -63,14 +60,14 @@ def create_group(data, groupname, index=None):
     if keyfound == False:
         #data[groupname] = []
         data['groups'][groupname] = []
-        if index is not None:
-            data['groups'][groupname].append(index)
-            name = "%s/%s" % (groupname,index)
-            data['counters'][groupname] = index
+        if counter is not None:
+            data['groups'][groupname].append(counter)
+            name = "%s/%s" % (groupname,counter)
+            data['counters'][groupname] = counter
             data[name] = []
         else:
             print("-----------------------------------------------------")
-            print("There is no index to go with group %s" % (groupname))
+            print("There is no counter to go with group %s" % (groupname))
             print("Are you sure that's what you want?")
             print("-----------------------------------------------------")
         
@@ -89,16 +86,16 @@ def create_dataset(data, datasets, group=None, dtype=None):
         print("-----------------------------------------------")
         return -1
 
-    # Put the index in the dictionary first.
+    # Put the counter in the dictionary first.
     keyfound = False
     for k in keys:
         if group == k:
             keyfound = True
     if keyfound == False:
         print("Your group, %s is not in the dictionary yet!")
-        index = "n%s" % (group)
-        print("Adding it, along with an index counter of %s" % (index))
-        create_group(data,group,index=index)
+        counter = "n%s" % (group)
+        print("Adding it, along with an counter of %s" % (counter))
+        create_group(data,group,counter=counter)
 
     # Then put the datasets into the group in there next.
     if type(datasets) != list:
@@ -126,7 +123,7 @@ def fill(data,event):
         if key=='counters' or key=='groups':
             continue
 
-        #if key[-5:] == 'index':
+        #if key[-5:] == 'counter':
             #continue
         if type(event[key]) == list:
             data[key] += event[key]
@@ -146,7 +143,7 @@ def write_to_file(filename,data,comp_type=None,comp_opts=None):
         print(group)
 
         hdfile.create_group(group)
-        hdfile[group].attrs['index'] = np.string_(data['counters'][group])
+        hdfile[group].attrs['counter'] = np.string_(data['counters'][group])
 
         datasets = data['groups'][group]
 

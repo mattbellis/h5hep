@@ -24,7 +24,8 @@ def hd5events(filename=None,verbose=False,select_key_tags=None):
 
     for name in f:
 
-        counter = f[name].attrs['index']
+        # The decode is there because counter is a numpy.bytes object
+        counter = f[name].attrs['counter'].decode()
         ourdata['counters'][name] = counter
         ourdata['list_of_counters'].append(counter)
 
@@ -59,6 +60,8 @@ def hd5events(filename=None,verbose=False,select_key_tags=None):
 
             #'''
             #if data=="num":
+            # This is to keep track of the index where each event
+            # starts
             if data==counter:
                 indexgroupname = "%s/%s" % (name,"index")
                 index = np.zeros(len(ourdata[groupname]),dtype=int)
@@ -90,8 +93,12 @@ def get_event(event,data,n=0):
         elif "num" not in key and "index" not in key:# and 'Jets' in key:
             groupname = key.split("/")[0]
             indexkey = "%s/index" % (groupname)
-            numkey = "%s/num" % (groupname)
+            #numkey = "%s/num" % (groupname)
+            numkey = "%s/%s" % (groupname,data['counters'][groupname])
 
+            #print(data)
+            #print(indexkey)
+            #print(numkey)
             index = data[indexkey][n]
             nobjs = data[numkey][n]
 
