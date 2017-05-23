@@ -1,7 +1,7 @@
 from setuptools import setup
 import sys
 
-requirements = []
+requirements = ['h5py']
 
 if sys.version_info < (3, 3):
     sys.stdout.write("At least Python 3.3 is required.\n")
