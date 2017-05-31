@@ -99,10 +99,12 @@ def get_event(event,data,n=0):
             #print(data)
             #print(indexkey)
             #print(numkey)
-            index = data[indexkey][n]
-            nobjs = data[numkey][n]
-
-            event[key] = data[key][index:index+nobjs]
+            #print(data[indexkey])
+            if len(data[indexkey])>0:
+                index = data[indexkey][n]
+            if len(data[numkey])>0:
+                nobjs = data[numkey][n]
+                event[key] = data[key][index:index+nobjs]
 
 ################################################################################
 

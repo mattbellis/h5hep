@@ -1,15 +1,14 @@
 import h5py as h5
 import numpy as np
 
-
-
 import matplotlib.pylab as plt
 
 import time
 
 import sys
 sys.path.append('../h5hep')
-from h5hep import hd5events,get_event
+#from h5hep import hd5events,get_event
+from read import hd5events,get_event
 
 import sys
 
@@ -18,7 +17,6 @@ filename = sys.argv[1]
 #data,event = hd5events(filename,verbose=True,select_key_tags=['Jet'])
 data,event = hd5events(filename,verbose=False)
 
-#nevents = len(data['Jets/num'])
 nevents = len(data['jet/njet'])
 print(nevents)
 
@@ -37,7 +35,6 @@ for i in range(0,nevents):
 
     get_event(event,data,n=i)
 
-    #energy = event['Jets/Energy']
     energy = event['jet/e']
 
     for e in energy:
@@ -49,5 +46,6 @@ print(len(energies))
 plt.figure()
 plt.hist(energies,bins=100,range=(0,1))
 
-plt.show()
+#plt.show()
+
 
