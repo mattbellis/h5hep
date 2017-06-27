@@ -26,7 +26,9 @@ def hd5events(filename=None,verbose=False,select_key_tags=None):
 
         # The decode is there because counter is a numpy.bytes object
         counter = f[name].attrs['counter'].decode()
+        #print("counter: ",counter)
         ourdata['counters'][name] = counter
+        #counter_name = "%s/%s" % (counter)
         ourdata['list_of_counters'].append(counter)
 
         names.append(name)
@@ -62,7 +64,9 @@ def hd5events(filename=None,verbose=False,select_key_tags=None):
             #if data=="num":
             # This is to keep track of the index where each event
             # starts
-            if data==counter:
+            #full_data_path = "%s/%s" % (groupname,data)
+            #print("groupname: ",groupname,counter)
+            if groupname==counter:
                 indexgroupname = "%s/%s" % (name,"index")
                 index = np.zeros(len(ourdata[groupname]),dtype=int)
                 start = 0
@@ -74,6 +78,7 @@ def hd5events(filename=None,verbose=False,select_key_tags=None):
                 ourdata[indexgroupname] = index
             #'''
 
+    f.close()
     return ourdata,event
 ################################################################################
 
@@ -87,14 +92,16 @@ def get_event(event,data,n=0):
 
         #if "num" in key:
         # IS THERE A WAY THAT THIS COULD BE FASTER?
+        #print(data['list_of_counters'],key)
         if key in data['list_of_counters']:
+            #print("here! ",key)
             event[key] = data[key][n]
 
-        elif "num" not in key and "index" not in key:# and 'Jets' in key:
+        elif "index" not in key:# and 'Jets' in key:
             groupname = key.split("/")[0]
             indexkey = "%s/index" % (groupname)
             #numkey = "%s/num" % (groupname)
-            numkey = "%s/%s" % (groupname,data['counters'][groupname])
+            numkey = data['counters'][groupname]
 
             #print(data)
             #print(indexkey)
@@ -102,6 +109,7 @@ def get_event(event,data,n=0):
             #print(data[indexkey])
             if len(data[indexkey])>0:
                 index = data[indexkey][n]
+
             if len(data[numkey])>0:
                 nobjs = data[numkey][n]
                 event[key] = data[key][index:index+nobjs]

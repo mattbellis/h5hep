@@ -7,6 +7,7 @@ def initialize():
     data = {}
     data['counters'] = {}
     data['groups'] = {}
+    data['list_of_counters'] = []
     return data
 
 ################################################################################
@@ -25,6 +26,8 @@ def create_single_event(data):
     for k in data.keys():
         if k[-5:] == 'index':
             event[k] = data[k]
+        elif k in data['list_of_counters']:
+            event[k] = 0
         else:
             event[k] = data[k].copy()
 
@@ -64,7 +67,10 @@ def create_group(data, groupname, counter=None):
         if counter is not None:
             data['groups'][groupname].append(counter)
             name = "%s/%s" % (groupname,counter)
-            data['counters'][groupname] = counter
+            #data['counters'][groupname] = counter
+            data['counters'][groupname] = name
+            if name not in data['list_of_counters']:
+                data['list_of_counters'].append(name)
             data[name] = []
             print("Adding a counter for %s as %s" % (groupname,counter))
         else:
@@ -114,22 +120,39 @@ def create_dataset(data, datasets, group=None, dtype=None):
             print("Adding dataset %s to the dictionary under group %s." % (dataset,group))
             data[name] = []
             data['groups'][group].append(dataset)
+
+            # Add a counter for this dataset for the group with which it is associated.
+            counter = data['counters'][group]
+            #counter_name = "%s/%s" % (group,counter)
+            data['counters'][name] = counter
     
         
 ################################################################################
 def fill(data,event):
 
-    keys = event.keys()
+    keys = list(event.keys())
+
     for key in keys:
         #print(key)
 
-        if key=='counters' or key=='groups':
+        if key=='counters' or key=='groups' or key=='list_of_counters':
             continue
 
         #if key[-5:] == 'counter':
             #continue
         if type(event[key]) == list:
-            data[key] += event[key]
+            value = event[key]
+            if len(value)>0:
+                data[key] += value
+            '''
+            else:
+                # No entries for this event
+                #print(key)
+                counter = data['counters'][key]
+                data[counter].append(0)
+                if counter in keys:
+                    keys.remove(counter)
+            '''
         else:
             data[key].append(event[key])
 
