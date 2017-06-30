@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.random import beta
 import sys
-sys.path.append('../h5hep')
+#sys.path.append('../h5hep')
 #from write import *
 import h5hep as hp
 
@@ -33,7 +33,7 @@ hp.create_dataset(data,['pt','phi'],group='MET',dtype=float)
 
 event = hp.create_single_event(data)
 
-nevents = 100000
+nevents = 1000
 
 #print(data)
 #print(event)

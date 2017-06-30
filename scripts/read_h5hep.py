@@ -1,51 +1,53 @@
 import h5py as h5
 import numpy as np
-
 import matplotlib.pylab as plt
-
 import time
 
-import sys
-sys.path.append('../h5hep')
-#from h5hep import hd5events,get_event
-from read import hd5events,get_event
+import h5hep as hp
 
 import sys
 
 filename = sys.argv[1]
 
-#data,event = hd5events(filename,verbose=True,select_key_tags=['Jet'])
-data,event = hd5events(filename,verbose=False)
+data,event = hp.hd5events(filename,subset=(0,100000))
+#data,event = hp.hd5events(filename,desired_datasets=['jet','muon'])
+#data,event = hp.hd5events(filename,desired_datasets=['jet'])
+#data,event = hp.hd5events(filename,desired_datasets=['jet','muon'],subset=(0,100000))
 
-nevents = len(data['jet/njet'])
-print(nevents)
+#print(data['list_of_counters'])
+
+nevents = data['nevents']
+print("nevents: ",nevents)
 
 energies = []
 
-#x = data['Jets/Energy']
+#x = data['jet/e']
 
-# Print out what is stored in the files.
+# Print out what has been read in from the files.
+'''
 for key in event.keys():
     print(key)
+'''
 
 for i in range(0,nevents):
 
     if i%10000==0:
         print(i)
 
-    get_event(event,data,n=i)
+    hp.get_event(event,data,n=i)
 
     energy = event['jet/e']
 
+    '''
     for e in energy:
         energies.append(e)
+    '''
+    energies += energy.tolist()
 
 
 print(len(energies))
 
 plt.figure()
-plt.hist(energies,bins=100,range=(0,1))
+plt.hist(energies,bins=100,range=(0,500))
 
 #plt.show()
-
-

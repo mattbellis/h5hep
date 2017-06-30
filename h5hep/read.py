@@ -6,7 +6,7 @@ import matplotlib.pylab as plt
 import time
 
 ################################################################################
-def hd5events(filename=None,verbose=False,select_key_tags=None):
+def hd5events(filename=None,verbose=False,desired_datasets=None,subset=None):
 
     f = None
     if filename!=None:
@@ -15,70 +15,115 @@ def hd5events(filename=None,verbose=False,select_key_tags=None):
         print("No filename passed in! Can't open file.\n")
         return None
 
-    names = []
-
     ourdata = {}
-    ourdata['counters'] = {}
+    ourdata['datasets_and_counters'] = {}
+    ourdata['datasets_and_indices'] = {}
     ourdata['list_of_counters'] = []
+    ourdata['all_datasets'] = []
+
+    ourdata['nevents'] = f.attrs['nevents']
+    if subset is not None:
+        ourdata['nevents'] = subset[1] - subset[0]
+
     event = {}
 
-    for name in f:
+    # Get the datasets and counters
+    dc = f['datasets_and_counters']
+    for vals in dc:
+        # The decode is there because vals were stored as numpy.bytes
+        counter = vals[1].decode()
+        index = "%s_INDEX" % (counter)
+        ourdata['datasets_and_counters'][vals[0].decode()] = counter
+        ourdata['datasets_and_indices'][vals[0].decode()] = index
+        ourdata['list_of_counters'].append(vals[1].decode())
+        ourdata['all_datasets'].append(vals[0].decode())
+
+    ourdata['list_of_counters'] = np.unique(ourdata['list_of_counters']).tolist()
+
+    # Get the list of datasets and groups, but remove the 
+    # 'datasets_and_counters', as that is a protected key.
+    entries = ourdata['all_datasets']
+
+    ########################################################
+    # Only keep select data from file
+    ########################################################
+    if desired_datasets is not None:
+        if type(desired_datasets) != list:
+            desired_datasets = list(desired_datasets)
+
+        # Count backwards because we'll be removing stuff as we go.
+        i = len(entries)-1
+        while i>=0:
+            entry = entries[i]
+
+            is_dropped = True
+            for desdat in desired_datasets:
+                if desdat in entry:
+                    is_dropped = False
+                    break
+
+            if is_dropped==True:
+                print("Not reading out %s from the file...." % (entry))
+                entries.remove(entry)
+
+            i -= 1
+    #######################################################
+
+    if verbose==True:
+        print("Datasets and counters:")
+        print(ourdata['datasets_and_counters'])
+        print("\nDatasets and indices:")
+        print(ourdata['list_of_counters'])
+
+    # Pull out the counters first and build the indices
+    print("Building the indices...")
+    for name in ourdata['list_of_counters']:
+        if subset is not None:
+            ourdata[name] = f[name][subset[0]:subset[1]]
+        else:
+            ourdata[name] = f[name][:]
+
+        #counter = f[name].value
+        indexname = "%s_INDEX" % (name)
+        index = np.zeros(len(ourdata[name]),dtype=int)
+        start = 0
+        nentries = len(index)
+        for i in range(0,nentries):
+            index[i] = start
+            nobjs = ourdata[name][i]
+            start = index[i] + nobjs
+        ourdata[indexname] = index
+    print("Built the indices!")
+
+    
+    # Loop over the entries we want and pull out the data.
+    for name in entries:
 
         # The decode is there because counter is a numpy.bytes object
-        counter = f[name].attrs['counter'].decode()
-        #print("counter: ",counter)
-        ourdata['counters'][name] = counter
-        #counter_name = "%s/%s" % (counter)
-        ourdata['list_of_counters'].append(counter)
-
-        names.append(name)
+        counter = None
+        if name not in ourdata['list_of_counters']:
+            counter = ourdata['datasets_and_counters'][name]
 
         if verbose==True:
             print(f[name])
 
-        for data in f[name]:
-            groupname = "%s/%s" % (name,data)
+        data = f[name]
+        #for data in f[name]:
+        if type(data)==h5.Dataset:
+            datasetname = name
 
-            ########################################################
-            # Only keep select data from file
-            ########################################################
-            keep_name = False
-            if select_key_tags is None:
-                keep_name = True
+            if subset is not None:
+                ourdata[datasetname] = data[subset[0]:subset[1]]
             else:
-                for skt in select_key_tags:
-                    if skt in groupname:
-                        keep_name = True
-                        break
+                ourdata[datasetname] = data[:]
 
-            if keep_name==False:
-                continue
-            ########################################################
-
-            ourdata[groupname] = f[groupname][:]
-            event[groupname] = None # This will be filled for individual events
+            event[datasetname] = None # This will be filled for individual events
             if verbose==True:
                 print(data)
 
-            #'''
-            #if data=="num":
-            # This is to keep track of the index where each event
-            # starts
-            #full_data_path = "%s/%s" % (groupname,data)
-            #print("groupname: ",groupname,counter)
-            if groupname==counter:
-                indexgroupname = "%s/%s" % (name,"index")
-                index = np.zeros(len(ourdata[groupname]),dtype=int)
-                start = 0
-                nentries = len(index)
-                for i in range(0,nentries):
-                    index[i] = start
-                    nobjs = ourdata[groupname][i]
-                    start = index[i] + nobjs
-                ourdata[indexgroupname] = index
-            #'''
-
     f.close()
+    print("Data is read in and input file is closed.")
+
     return ourdata,event
 ################################################################################
 
@@ -97,16 +142,10 @@ def get_event(event,data,n=0):
             #print("here! ",key)
             event[key] = data[key][n]
 
-        elif "index" not in key:# and 'Jets' in key:
-            groupname = key.split("/")[0]
-            indexkey = "%s/index" % (groupname)
-            #numkey = "%s/num" % (groupname)
-            numkey = data['counters'][groupname]
+        elif "INDEX" not in key:# and 'Jets' in key:
+            indexkey = data['datasets_and_indices'][key]
+            numkey = data['datasets_and_counters'][key]
 
-            #print(data)
-            #print(indexkey)
-            #print(numkey)
-            #print(data[indexkey])
             if len(data[indexkey])>0:
                 index = data[indexkey][n]
 
