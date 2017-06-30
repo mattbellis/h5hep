@@ -23,6 +23,8 @@ def hd5events(filename=None,verbose=False,desired_datasets=None,subset=None):
 
     ourdata['nevents'] = f.attrs['nevents']
     if subset is not None:
+        if type(subset) == int:
+            subset = (0,subset)
         ourdata['nevents'] = subset[1] - subset[0]
 
     event = {}
