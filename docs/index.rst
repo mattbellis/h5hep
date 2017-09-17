@@ -6,10 +6,14 @@
 Welcome to h5hep's documentation!
 =================================
 
+This project gives you ROOT-file functionality but substituting
+HDF5 instead. 
+
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
    :caption: Contents:
 
+.. _h5hep: https://github.com/mattbellis/h5hep
 
 
 Indices and tables

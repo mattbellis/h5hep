@@ -45,8 +45,11 @@ extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages']
 
+
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
+
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -96,10 +99,10 @@ todo_include_todos = True
 # a list of builtin themes.
 #
 #html_theme = 'alabaster'
+
 import sphinx_rtd_theme
 html_theme = "sphinx_rtd_theme"
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -118,6 +121,14 @@ html_static_path = ['_static']
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'h5hepdoc'
 
+
+html_context = {
+    "display_github": True, # Integrate GitHub
+    "github_user": "mattbellis", # Username
+    "github_repo": "h5hep", # Repo name
+    "github_version": "master", # Version
+    "conf_py_path": "/source/", # Path in the checkout to the docs root
+}
 
 # -- Options for LaTeX output ---------------------------------------------
 
