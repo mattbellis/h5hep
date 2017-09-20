@@ -8,6 +8,14 @@ import time
 ################################################################################
 def hd5events(filename=None,verbose=False,desired_datasets=None,subset=None):
 
+    """ This pulls out either all or a subset of the data from the HDF5 file.
+
+    Args:
+	**filename** (string): Name of the input file
+	
+	**verbose** (boolean): True if debug output is required
+    """
+
     f = None
     if filename!=None:
         f = h5.File(filename,'r+')
