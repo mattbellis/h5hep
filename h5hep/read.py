@@ -14,6 +14,16 @@ def hd5events(filename=None,verbose=False,desired_datasets=None,subset=None):
 	**filename** (string): Name of the input file
 	
 	**verbose** (boolean): True if debug output is required
+
+	**desired_datasets** (list): Datasets to read from file
+
+	**subset** (int): Number of events
+
+    Returns:
+	**ourdata** (list?): Read out data from HDF5 file
+	
+	**event** (list?): Not sure = event[key]? 
+
     """
 
     f = None
