@@ -4,6 +4,15 @@ import h5py as h5
 
 ################################################################################
 def initialize():
+
+    """ 
+
+    Args:
+
+    Returns:
+
+    """
+
     data = {}
     data['groups'] = {}
     data['datasets_and_counters'] = {}
@@ -12,6 +21,15 @@ def initialize():
 
 ################################################################################
 def clear_event(data):
+
+    """ 
+
+    Args:
+
+    Returns:
+
+    """
+
     for key in data.keys():
         if type(data[key]) == list:
             data[key].clear()
@@ -29,6 +47,15 @@ def clear_event(data):
 # the overall dataset
 ################################################################################
 def create_single_event(data):
+
+    """ 
+
+    Args:
+
+    Returns:
+
+    """
+
     event = {}
 
     for k in data.keys():
@@ -46,6 +73,14 @@ def create_single_event(data):
 # a la CreateBranch in ROOT
 ################################################################################
 def create_group(data, groupname, counter=None):
+
+    """ 
+
+    Args:
+
+    Returns:
+
+    """
 
     keys = data.keys()
 
@@ -93,6 +128,14 @@ def create_group(data, groupname, counter=None):
 ################################################################################
 def create_dataset(data, datasets, group=None, dtype=None):
 
+    """ 
+
+    Args:
+
+    Returns:
+
+    """
+
     keys = data.keys()
 
     if group is None:
@@ -138,6 +181,14 @@ def create_dataset(data, datasets, group=None, dtype=None):
 ################################################################################
 def fill(data,event):
 
+    """ 
+
+    Args:
+
+    Returns:
+
+    """
+
     keys = list(event.keys())
 
     for key in keys:
@@ -168,6 +219,14 @@ def fill(data,event):
 ################################################################################
 def convert_dict_to_string_data(dictionary):
 
+    """ 
+
+    Args:
+
+    Returns:
+
+    """
+
     keys = dictionary.keys()
 
     nkeys = len(keys)
@@ -185,6 +244,14 @@ def convert_dict_to_string_data(dictionary):
 
 ################################################################################
 def write_to_file(filename,data,comp_type=None,comp_opts=None,force_single_precision=True):
+
+    """ 
+
+    Args:
+
+    Returns:
+
+    """
 
     hdoutfile = h5.File(filename,'w')
 

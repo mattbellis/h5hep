@@ -151,6 +151,14 @@ def hd5events(filename=None,verbose=False,desired_datasets=None,subset=None):
 ################################################################################
 def get_event(event,data,n=0):
 
+    """ 
+
+    Args:
+
+    Returns:
+
+    """
+
     keys = event.keys()
 
     for key in keys:
