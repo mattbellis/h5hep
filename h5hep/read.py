@@ -20,9 +20,9 @@ def hd5events(filename=None,verbose=False,desired_datasets=None,subset=None):
 	**subset** (int): Number of events
 
     Returns:
-	**ourdata** (list?): Read out data from HDF5 file
+	**ourdata (dict): Read out data from HDF5 file
 	
-	**event** (list?): Not sure = event[key]? 
+	**event** (dict): An empty event dictionary 
 
     """
 
@@ -151,11 +151,13 @@ def hd5events(filename=None,verbose=False,desired_datasets=None,subset=None):
 ################################################################################
 def get_event(event,data,n=0):
 
-    """ 
+    """ This fills the event dictionary with the data.
 
     Args:
 
-    Returns:
+	**event** (dict): Event dictionary to be filled
+
+	**data** (dict): Dataset to fill the event
 
     """
 

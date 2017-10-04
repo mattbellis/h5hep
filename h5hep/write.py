@@ -5,11 +5,11 @@ import h5py as h5
 ################################################################################
 def initialize():
 
-    """ 
-
-    Args:
+    """ Creates an empty data dictionary
 
     Returns:
+
+	**data** (dict): An empty data dictionary
 
     """
 
@@ -22,11 +22,10 @@ def initialize():
 ################################################################################
 def clear_event(data):
 
-    """ 
+    """ Clears the data from the data dictionary - should the name of the function change?
 
     Args:
-
-    Returns:
+	**data** (dict): The dictionary to be cleared
 
     """
 
@@ -48,11 +47,13 @@ def clear_event(data):
 ################################################################################
 def create_single_event(data):
 
-    """ 
+    """ Creates an event dictionary that will be used to fill the overall dataset
 
     Args:
+	**data** (dict): Data dictionary to be used to fill event dictionary
 
     Returns:
+	**event** (dict): The new event dictionary
 
     """
 
@@ -74,11 +75,14 @@ def create_single_event(data):
 ################################################################################
 def create_group(data, groupname, counter=None):
 
-    """ 
+    """ Adds a group in the dictionary
 
     Args:
+	**data** (dict): Dictionary to which the group will be added
 
-    Returns:
+	**groupname** (string): Name of the group to be added
+
+	**counter** (string): Name of the counter key. None by default
 
     """
 
@@ -128,11 +132,20 @@ def create_group(data, groupname, counter=None):
 ################################################################################
 def create_dataset(data, datasets, group=None, dtype=None):
 
-    """ 
+    """ Adds a dataset to a group in a dictionary. If the group does not exist, it will be created.
 
     Args:
+	**data** (dict): Dictionary that contains the group
+	
+	**datasets** (list): Dataset to be added to the group (This doesn't have to be a list)
+
+	**group** (string): Name of group the dataset will be added to.  None by default
+
+	**dtype** (type): The data type. None by default - I don't think this is every used 
 
     Returns:
+	**-1**: If the group is None
+
 
     """
 
@@ -181,11 +194,12 @@ def create_dataset(data, datasets, group=None, dtype=None):
 ################################################################################
 def fill(data,event):
 
-    """ 
+    """ Fills an event with given data
 
     Args:
+	**data** (dict): Data to be added to event
 
-    Returns:
+	**event** (dict): Event to be filled
 
     """
 
@@ -219,11 +233,13 @@ def fill(data,event):
 ################################################################################
 def convert_dict_to_string_data(dictionary):
 
-    """ 
+    """ Converts data dictionary to a string
 
     Args:
+	**dictionary** (dict): Dictionary to be converted to a string
 
     Returns:
+	**mydataset** (string): String representation of the dataset
 
     """
 
@@ -245,11 +261,19 @@ def convert_dict_to_string_data(dictionary):
 ################################################################################
 def write_to_file(filename,data,comp_type=None,comp_opts=None,force_single_precision=True):
 
-    """ 
+    """ Writes the selected data to an h5hep file
 
     Args:
+	**filename** (string): Name of output file
+
+	**data** (dictionary): Data to be written into output file
+
+	**comp_type** (string): Type of compression
+
+	**force_single_precision** (boolean): True if data should be written in single precision
 
     Returns:
+	**hdoutfile** (h5hep): File to which the data has been written 
 
     """
 

@@ -20,6 +20,8 @@ data,event = hp.hd5events(filename,subset=10000)
 nevents = data['nevents']
 print("nevents: ",nevents)
 
+print(type(data),type(event))
+
 energies = []
 
 #x = data['jet/e']
