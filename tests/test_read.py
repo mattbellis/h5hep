@@ -6,40 +6,57 @@ import matplotlib.pylab as plt
 
 import time
 
-def isEmpty(dictionary):
-	test = True
-	for key in dictionary.keys:
-		if len(dictionary[key]) > 0:
-			test = False
+import sys
+sys.path.append('./scripts')
+from write_h5hep_file_for_unit_tests import write_h5hep_file_for_unit_tests
 
-	return test
-	
+def isEmpty(dictionary):
+    test = True
+    print(dictionary.keys())
+    for key in dictionary.keys():
+        print(key)
+        print(dictionary[key])
+        print(type(dictionary[key]))
+        if dictionary[key] is None:
+            test = True
+        elif type(dictionary[key])==list or type(dictionary[key])==np.ndarray:
+            if len(dictionary[key]) > 0:
+                test = False
+
+    return test
+
 
 def test_hd5events():
 
-	filename = "../scripts/output.hdf5"
-	desired_datasets = ['jet','muon']
-	subset = 1000
+    write_h5hep_file_for_unit_tests()
 
-	test_data,test_event = hp.hd5events(filename, False, desired_datasets, subset)
+    # This assumes you run nosetests from the h5hep directory and not 
+    # the tests directory.
+    filename = "./scripts/output.hdf5"
+    desired_datasets = ['jet','muon']
+    subset = 1000
 
-	assert isinstance(test_data, dict)
-	assert isinstance(test_event, dict)
+    test_data,test_event = hp.hd5events(filename, False, desired_datasets, subset)
 
-	assert isEmpty(test_event) == True
-	assert isEmpty(test_data) == False
+    assert isinstance(test_data, dict)
+    assert isinstance(test_event, dict)
+
+    assert isEmpty(test_event) == True
+    assert isEmpty(test_data) == False
 
 def test_get_event():
 	
-	filename = "../scripts/output.hdf5"
-	desired_datasets = ['jet','muon']
-	subset = 1000
-	
-	event, data = hp.hd5events(filename, False, desired_datasets, subset)
+    # This assumes you run nosetests from the h5hep directory and not 
+    # the tests directory.
+    filename = "./scripts/output.hdf5"
+    desired_datasets = ['jet','muon']
+    subset = 1000
 
-	hp.get_event()
+    event, data = hp.hd5events(filename, False, desired_datasets, subset)
 
-	assert isEmpty(event) == False
+    hp.get_event(data, event)
+
+    assert isEmpty(event) == False
 
 
 
