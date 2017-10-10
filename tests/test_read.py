@@ -37,7 +37,7 @@ def test_get_event():
 	
 	event, data = hp.hd5events(filename, False, desired_datasets, subset)
 
-	hp.get_event()
+	#hp.get_event()
 
 	assert isEmpty(event) == False
 
