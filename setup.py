@@ -24,7 +24,7 @@ setup(
     author_email='mbellis@siena.edu',
     license='MIT',
     packages = ['h5hep'],
-    #install_requires = requirements,
+    install_requires = ['numpy','h5py'],
     #tests_require = ['pytest', 'pytest-cov'],
     classifiers=[ # HAVE TO FIX ALL THIS
         'Development Status :: 5 - Production/Stable',
