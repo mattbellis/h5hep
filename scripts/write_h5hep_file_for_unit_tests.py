@@ -32,7 +32,7 @@ def write_h5hep_file_for_unit_tests():
 
     print("Writing the file...")
     #hdfile = write_to_file('output.hdf5',data)
-    hdfile = write_to_file('output.hdf5',data,comp_type='gzip',comp_opts=9)
+    hdfile = write_to_file('FOR_TESTS.hdf5',data,comp_type='gzip',comp_opts=9)
     #'''
 
 if __name__ == "__main__":
