@@ -8,7 +8,7 @@ import time
 
 import sys
 sys.path.append('./scripts')
-from write_h5hep_file_for_unit_tests import write_h5hep_file_for_unit_tests
+#from write_h5hep_file_for_unit_tests import write_h5hep_file_for_unit_tests
 
 def isEmpty(dictionary):
     test = True
@@ -28,11 +28,11 @@ def isEmpty(dictionary):
 
 def test_hd5events():
 
-    write_h5hep_file_for_unit_tests()
+    #write_h5hep_file_for_unit_tests()
 
     # This assumes you run nosetests from the h5hep directory and not 
     # the tests directory.
-    filename = "./scripts/output.hdf5"
+    filename = "./test_data/FOR_TESTS.hdf5"
     desired_datasets = ['jet','muon']
     subset = 1000
 
@@ -48,7 +48,7 @@ def test_get_event():
 	
     # This assumes you run nosetests from the h5hep directory and not 
     # the tests directory.
-    filename = "./scripts/output.hdf5"
+    filename = "./test_data/FOR_TESTS.hdf5"
     desired_datasets = ['jet','muon']
     subset = 1000
 
