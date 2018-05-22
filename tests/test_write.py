@@ -40,7 +40,7 @@ def test_clear_event():
     desired_datasets = ['jet','muon']
     subset = 1000
 
-    event, data = hp.hd5events(filename, False, desired_datasets, subset)
+    data, event = hp.hd5events(filename, False, desired_datasets, subset)
 
     hp.clear_event(data)
 
@@ -65,7 +65,7 @@ def test_create_group():
     desired_datasets = ['jet','muon']
     subset = 1000
 
-    test_event, data = hp.hd5events(filename, False, desired_datasets, subset)
+    data, test_event = hp.hd5events(filename, False, desired_datasets, subset)
 
     test_key = "test_key"
 
@@ -79,7 +79,7 @@ def test_create_dataset():
     desired_datasets = ['jet','muon']
     subset = 1000
 
-    test_event, data = hp.hd5events(filename, False, desired_datasets, subset)
+    data, test_event = hp.hd5events(filename, False, desired_datasets, subset)
 
     test = hp.create_dataset(test_event, desired_datasets)
 
