@@ -33,7 +33,7 @@ hp.create_dataset(data,['pt','phi'],group='MET',dtype=float)
 
 event = hp.create_single_event(data)
 
-nevents = 1000
+nevents = 10000
 
 #print(data)
 #print(event)
