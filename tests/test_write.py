@@ -79,7 +79,7 @@ def test_create_dataset():
     desired_datasets = ['jet','muon']
     subset = 1000
 
-    data, test_event = hp.hd5events(filename, False, desired_datasets, subset)
+    test_event = {}
 
     test = hp.create_dataset(test_event, desired_datasets)
 
