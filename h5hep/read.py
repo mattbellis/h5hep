@@ -8,21 +8,22 @@ import time
 ################################################################################
 def hd5events(filename=None,verbose=False,desired_datasets=None,subset=None):
 
-    """ This pulls out either all or a subset of the data from the HDF5 file.
+    """ Pulls out either all or a subset of the data from the HDF5 file to fill a data dictionary.
+    An empty dictionary is returned to be filled with events later.
 
     Args:
 	**filename** (string): Name of the input file
 	
 	**verbose** (boolean): True if debug output is required
 
-	**desired_datasets** (list): Datasets to read from file
+	**desired_datasets** (list): Datasets to be read from input file
 
-	**subset** (int): Number of events
+	**subset** (int): Number of events to be read from input file
 
     Returns:
-	**ourdata (dict): Read out data from HDF5 file
+	**ourdata (dict): Selected data from HDF5 file
 	
-	**event** (dict): An empty event dictionary 
+	**event** (dict): An empty event dictionary to be filled by individual events
 
     """
 
@@ -151,13 +152,13 @@ def hd5events(filename=None,verbose=False,desired_datasets=None,subset=None):
 ################################################################################
 def get_event(event,data,n=0):
 
-    """ This fills the event dictionary with the data.
+    """ Fills the event dictionary with selected events.
 
     Args:
 
 	**event** (dict): Event dictionary to be filled
 
-	**data** (dict): Dataset to fill the event
+	**data** (dict): Data to fill the event dictionary
 
     """
 
