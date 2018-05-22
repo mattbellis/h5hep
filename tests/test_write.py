@@ -30,7 +30,7 @@ def test_initialize():
     test_data = hp.initialize()
 
     assert isinstance(test_data, dict)
-    assert isEmpty(test_event) == True
+    assert isEmpty(test_data) == True
 
 def test_clear_event():
 	
