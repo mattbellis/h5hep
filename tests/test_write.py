@@ -54,7 +54,7 @@ def test_create_single_event():
 
     event, data = hp.hd5events(filename, False, desired_datasets, subset)
 
-    hp.get_event(event,data)
+    hp.get_event(data,event)
 
     test_event = hp.create_single_event(event)
 
