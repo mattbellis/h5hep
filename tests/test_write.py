@@ -54,9 +54,7 @@ def test_create_single_event():
 
     data, event = hp.hd5events(filename, False, desired_datasets, subset)
 
-    hp.get_event(event,data)
-
-    test_event = hp.create_single_event(event)
+    test_event = hp.create_single_event(data)
 
     assert isEmpty(test_event) == False
     assert isinstance(test_event, dict)
