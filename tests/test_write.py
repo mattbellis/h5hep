@@ -42,9 +42,9 @@ def test_clear_event():
 
     data, event = hp.hd5events(filename, False, desired_datasets, subset)
 
-    hp.clear_event(data)
+    hp.clear_event(event)
 
-    assert isEmpty(data) == True
+    assert isEmpty(event) == True
 
 def test_create_single_event():
 
