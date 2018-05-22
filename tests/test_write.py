@@ -52,7 +52,7 @@ def test_create_single_event():
     desired_datasets = ['jet','muon']
     subset = 1000
 
-    event, data = hp.hd5events(filename, False, desired_datasets, subset)
+    data, event = hp.hd5events(filename, False, desired_datasets, subset)
 
     hp.get_event(event,data)
 
