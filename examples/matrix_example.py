@@ -60,66 +60,29 @@ for i in range(0,nmat):
     # Clear the event matrix for the next iteration
     hp.clear_event(event)
 
+###############
 # Write to file
-hdfile = hp.write_to_file('matrix_example_output.hdf5',matrix,comp_type='gzip',comp_opts=9)
+###############
+filename = 'matrix_example_output.hdf5'
+hdfile = hp.write_to_file(filename,matrix,comp_type='gzip',comp_opts=9)
+
+################
+# Read from file
+################
+data,event = hp.hd5events(filename)
+print(data)
+#nevents = data['nevents']
+
+
 
 ####################################################
 # Plotting to check out what's inside the dictionary
 ####################################################
-'''
-count = 0
-z = []
-for ndata in matrix['data/ndata']:
-    count += 1
-    for i in range(0,ndata):
-        z.append(count)
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
 
-c = ['b', 'g', 'r', 'c', 'm', 'b', 'g', 'r', 'c', 'm']
 
-ax.scatter(matrix['points/x'], matrix['points/y'], z, c=c, marker=None)
-'''
 
-'''
-# Create new figure
-plt.figure(figsize=(20,10))
 
-# Count variables to help with indexing values for each plot
-count = 0
-m = 1
-
-# Loop over the points in x and y using the ndata counter to index values
-for ndata in matrix['data/ndata']:
-    # Weight the colors of the points by the data value
-    z = np.array(matrix['data/data_point'][count:count+ndata])
-    #color = [str(item*100/255.) for item in z] 
-    color = plt.get_cmap('magma')
-    
-    plt.subplot(py_size,px_size,m)
-    
-    fig, ax = plt.subplots()
-    ax.imshow([matrix['points/x'],matrix['points/y']], cmap=color)
-    ax.grid(which='major', axis='both', linestyle='-', color='k', linewidth=2)
-    #ax.set_xticks(np.arange(-.5, 10, 1));
-    #ax.set_yticks(np.arange(-.5, 10, 1));
-
-    #plt.scatter(matrix['points/x'][count:count+ndata],matrix['points/y'][count:count+ndata],s=100,c=color)
-    #plt.xlim(0,x_size+1)
-    #plt.ylim(0,y_size+1)
-    plt.title('Matrix ' + str(m))    
-    # Count is incremented by the number of data points in each matrix
-    count += ndata
-    # m is incremented by one for subplot position
-    m += 1
-
-plt.subplots_adjust(bottom=0.1, right=0.8, top=0.9, hspace=.5)
-cax = plt.axes([0.85, 0.250, 0.01, 0.5])
-#plt.colorbar(cax=cax)
-
-plt.show()
-'''
 count = 0
 ## WILL BE CHANGED WHEN READ IN FROM FILE
 for i in range(0,nmat):
@@ -149,7 +112,9 @@ for i in range(0,nmat):
     ax.set_xticklabels(range(0,x_size))
     ax.set_yticklabels(range(0,y_size))
 
-plt.show()
+
+
+#plt.show()
 
 
 
