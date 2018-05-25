@@ -120,14 +120,14 @@ cax = plt.axes([0.85, 0.250, 0.01, 0.5])
 
 plt.show()
 '''
-
+count = 0
 ## WILL BE CHANGED WHEN READ IN FROM FILE
 for i in range(0,nmat):
-    
-    npoints = matrix['points/npoints'][0]
-    x = matrix['points/x'][0:npoints]
-    y = matrix['points/y'][0:npoints]
-    d = matrix['data/data_point'][0:npoints]
+
+    npoints = matrix['points/npoints'][i]
+    x = matrix['points/x'][count:count+npoints]
+    y = matrix['points/y'][count:count+npoints]
+    d = matrix['data/data_point'][count:count+npoints]
 
     data = np.zeros((x_size,y_size))
 
@@ -149,7 +149,7 @@ for i in range(0,nmat):
     ax.set_xticklabels(range(0,x_size))
     ax.set_yticklabels(range(0,y_size))
 
-    plt.show()
+plt.show()
 
 
 
