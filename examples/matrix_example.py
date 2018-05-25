@@ -4,6 +4,7 @@ import h5hep as hp
 
 import matplotlib.pylab as plt
 from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import colors
 
 ###################################################
 # Fill a matrix with a random amount of points.
@@ -14,8 +15,8 @@ from mpl_toolkits.mplot3d import Axes3D
 nmat = 10
 
 # Assign matrix dimensions
-x_size = 5
-y_size = 5
+x_size = 25
+y_size = 25
 x_size = int(x_size)
 y_size = int(y_size)
 
@@ -81,6 +82,7 @@ c = ['b', 'g', 'r', 'c', 'm', 'b', 'g', 'r', 'c', 'm']
 ax.scatter(matrix['points/x'], matrix['points/y'], z, c=c, marker=None)
 '''
 
+'''
 # Create new figure
 plt.figure(figsize=(20,10))
 
@@ -92,12 +94,20 @@ m = 1
 for ndata in matrix['data/ndata']:
     # Weight the colors of the points by the data value
     z = np.array(matrix['data/data_point'][count:count+ndata])
-    color = [str(item*100/255.) for item in z] 
+    #color = [str(item*100/255.) for item in z] 
+    color = plt.get_cmap('magma')
     
     plt.subplot(py_size,px_size,m)
-    plt.scatter(matrix['points/x'][count:count+ndata],matrix['points/y'][count:count+ndata],s=100,c=color)
-    plt.xlim(0,x_size+1)
-    plt.ylim(0,y_size+1)
+    
+    fig, ax = plt.subplots()
+    ax.imshow([matrix['points/x'],matrix['points/y']], cmap=color)
+    ax.grid(which='major', axis='both', linestyle='-', color='k', linewidth=2)
+    #ax.set_xticks(np.arange(-.5, 10, 1));
+    #ax.set_yticks(np.arange(-.5, 10, 1));
+
+    #plt.scatter(matrix['points/x'][count:count+ndata],matrix['points/y'][count:count+ndata],s=100,c=color)
+    #plt.xlim(0,x_size+1)
+    #plt.ylim(0,y_size+1)
     plt.title('Matrix ' + str(m))    
     # Count is incremented by the number of data points in each matrix
     count += ndata
@@ -106,10 +116,40 @@ for ndata in matrix['data/ndata']:
 
 plt.subplots_adjust(bottom=0.1, right=0.8, top=0.9, hspace=.5)
 cax = plt.axes([0.85, 0.250, 0.01, 0.5])
-plt.colorbar(cax=cax)
+#plt.colorbar(cax=cax)
 
 plt.show()
+'''
 
+## WILL BE CHANGED WHEN READ IN FROM FILE
+for i in range(0,nmat):
+    
+    npoints = matrix['points/npoints'][0]
+    x = matrix['points/x'][0:npoints]
+    y = matrix['points/y'][0:npoints]
+    d = matrix['data/data_point'][0:npoints]
+
+    data = np.zeros((x_size,y_size))
+
+    for i in range(npoints):
+        data[x[i]-1,y[i]-1] = d[i]
+
+    # create discrete colormap
+    #cmap = colors.ListedColormap(['red', 'blue'])
+    cmap = plt.get_cmap('plasma')
+
+    fig, ax = plt.subplots()
+    ax.imshow(data, cmap=cmap)
+
+    # draw gridlines
+    ax.grid(which='major', axis='both', linestyle='-', color='k', linewidth=2)
+    ax.set_xticks(np.arange(-.5, x_size, 1));
+    ax.set_yticks(np.arange(-.5, y_size, 1));
+
+    ax.set_xticklabels(range(0,x_size))
+    ax.set_yticklabels(range(0,y_size))
+
+    plt.show()
 
 
 
