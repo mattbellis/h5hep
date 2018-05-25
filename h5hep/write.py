@@ -17,6 +17,12 @@ def initialize():
     data['groups'] = {}
     data['datasets_and_counters'] = {}
     data['list_of_counters'] = []
+
+    # For singleton entries, variables with only one entry per event.
+    data['groups']['_SINGLETON_'] = []
+    data['datasets_and_counters']['_SINGLETON_'] = '_SINGLETON_/INDEX'
+    data['list_of_counters'].append('_SINGLETON_/INDEX')
+    data['_SINGLETON_/INDEX'] = []
     return data
 
 ################################################################################
@@ -62,6 +68,8 @@ def create_single_event(data):
     for k in data.keys():
         if k[-5:] == 'index':
             event[k] = data[k]
+        elif k in data['groups']['_SINGLETON_']:
+            event[k] = None
         elif k in data['list_of_counters']:
             event[k] = 0
         else:
@@ -156,13 +164,32 @@ def create_dataset(data, datasets, group=None, dtype=None):
         print("You need to assign this dataset(s) to a group!")
         print("Groups are not added")
         print("-----------------------------------------------")
-        return -1
+
+        if type(datasets) != list:
+            datasets = [datasets]
+
+        for dataset in datasets:
+            keyfound = False
+            for k in data['groups']['_SINGLETON_']:
+                if dataset == k:
+                    print("\033[1m%s\033[0m is already in the dictionary!" % (dataset))
+                    keyfound = True
+            if keyfound==False:
+                print("Adding dataset \033[1m%s\033[0m to the dictionary as a SINGLETON." % (dataset))
+                data['groups']['_SINGLETON_'].append(dataset)
+                data[dataset] = []
+                #counter_name = "%s/%s" % (group,counter)
+                data['datasets_and_counters'][dataset] = '_SINGLETON_/INDEX'
+
+        return 0
 
     # Put the counter in the dictionary first.
     keyfound = False
     for k in data['groups']:
         if group == k:
             keyfound = True
+
+    # NEED TO FIX THIS PART SO THAT IT FINDS THE RIGHT COUNTER FROM THE GROUP
     if keyfound == False:
         print("Your group, \033[1m%s\033[0m is not in the dictionary yet!" % (group))
         counter = "n%s" % (group)
@@ -189,6 +216,8 @@ def create_dataset(data, datasets, group=None, dtype=None):
             counter = data['datasets_and_counters'][group]
             #counter_name = "%s/%s" % (group,counter)
             data['datasets_and_counters'][name] = counter
+
+    return 0
     
         
 ################################################################################
@@ -211,6 +240,11 @@ def fill(data,event):
         if key=='datasets_and_counters' or key=='groups' or key=='list_of_counters':
             continue
 
+        # The singletons will only have 1 entry per event
+        if key=='_SINGLETON_/INDEX':
+            data[key].append(1) 
+            continue
+
         #if key[-5:] == 'counter':
             #continue
         if type(event[key]) == list:
@@ -227,6 +261,7 @@ def fill(data,event):
                     keys.remove(counter)
             '''
         else:
+            # This is for counters and SINGLETONS
             data[key].append(event[key])
 
 
