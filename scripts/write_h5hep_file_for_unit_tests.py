@@ -11,11 +11,11 @@ def write_h5hep_file_for_unit_tests():
 
     create_group(data,'muons',counter='nmuon')
     create_dataset(data,['e','px','py','pz'],group='muons',dtype=float)
-
+    
     event = create_single_event(data)
 
     #'''
-    for i in range(0,100000):
+    for i in range(0,10):
 
         clear_event(event)
 

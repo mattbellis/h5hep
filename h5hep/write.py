@@ -19,7 +19,7 @@ def initialize():
     data['list_of_counters'] = []
 
     # For singleton entries, variables with only one entry per event.
-    data['groups']['_SINGLETON_'] = []
+    data['groups']['_SINGLETON_'] = ['INDEX']
     data['datasets_and_counters']['_SINGLETON_'] = '_SINGLETON_/INDEX'
     data['list_of_counters'].append('_SINGLETON_/INDEX')
     data['_SINGLETON_/INDEX'] = []
@@ -334,6 +334,8 @@ def write_to_file(filename,data,comp_type=None,comp_opts=None,force_single_preci
         hdoutfile[group].attrs['counter'] = np.string_(data['datasets_and_counters'][group])
 
         datasets = data['groups'][group]
+
+        #print(datasets)
 
         for dataset in datasets:
             name = "%s/%s" % (group,dataset)

@@ -58,8 +58,11 @@ def hd5events(filename=None,verbose=False,desired_datasets=None,subset=None):
         ourdata['datasets_and_indices'][vals[0].decode()] = index
         ourdata['list_of_counters'].append(vals[1].decode())
         ourdata['all_datasets'].append(vals[0].decode())
+        ourdata['all_datasets'].append(vals[1].decode()) # Get the counters as well
 
+    # We may have added some strings (like counters) multiple times.
     ourdata['list_of_counters'] = np.unique(ourdata['list_of_counters']).tolist()
+    ourdata['all_datasets'] = np.unique(ourdata['all_datasets']).tolist()
 
     # Get the list of datasets and groups, but remove the 
     # 'datasets_and_counters', as that is a protected key.
