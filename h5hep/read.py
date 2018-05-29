@@ -64,6 +64,16 @@ def hd5events(filename=None,verbose=False,desired_datasets=None,subset=None):
     ourdata['list_of_counters'] = np.unique(ourdata['list_of_counters']).tolist()
     ourdata['all_datasets'] = np.unique(ourdata['all_datasets']).tolist()
 
+    # Pull out the SINGLETON datasets
+    sg = f['_SINGLETONGROUP_'][0] # This is a numpy array of strings
+    decoded_string = sg[1].decode()
+
+    vals = decoded_string.split("__:__")
+    vals.remove('INDEX')
+
+    ourdata['_SINGLETON_'] = vals
+
+
     # Get the list of datasets and groups, but remove the 
     # 'datasets_and_counters', as that is a protected key.
     entries = ourdata['all_datasets']
@@ -172,7 +182,7 @@ def get_event(event,data,n=0):
         #if "num" in key:
         # IS THERE A WAY THAT THIS COULD BE FASTER?
         #print(data['list_of_counters'],key)
-        if key in data['list_of_counters']:
+        if key in data['list_of_counters'] or key in data['_SINGLETON_']:
             #print("here! ",key)
             event[key] = data[key][n]
 

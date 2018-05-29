@@ -1,40 +1,30 @@
 import numpy as np
+import time
 import sys
 sys.path.append('../h5hep')
 #from write import *
-from h5hep import *
+import h5hep as hp
 
-data = initialize()
+data = hp.initialize()
 
-create_group(data,'jet',counter='njet')
-create_dataset(data,['e','px','py','pz'],group='jet',dtype=float)
+hp.create_group(data,'jet',counter='njet')
+hp.create_dataset(data,['e','px','py','pz'],group='jet',dtype=float)
 
-print("DATA =============")
-for key in data.keys():
-    print(key,data[key])
+hp.create_dataset(data,['time','runnum'],dtype=float)
 
-#create_dataset(data,['time','runnum'],dtype=float)
-
-#print(data)
-print("DATA =============")
-for key in data.keys():
-    print(key,data[key])
-
-
-event = create_single_event(data)
-
-
-print("EVENT =============")
-for key in event.keys():
-    print(key,event[key])
+event = hp.create_single_event(data)
 
 
 # Fill
-for i in range(0,1000):
+for i in range(0,10):
 
-    clear_event(event)
+    hp.clear_event(event)
 
     #event['time'] = 12.0
+
+    event['time'] = time.time()
+    event['runnum'] = 122300
+    print(event['time'],event['runnum'])
 
     njet = 5
     event['jet/njet'] = njet
@@ -45,10 +35,35 @@ for i in range(0,1000):
         event['jet/py'].append(np.random.random())
         event['jet/pz'].append(np.random.random())
 
-    fill(data,event)
+    hp.fill(data,event)
 
 #print(data)
+
 print("Writing the file...")
 #hdfile = write_to_file('output.hdf5',data)
-hdfile = write_to_file('output.hdf5',data,comp_type='gzip',comp_opts=9)
+outputfilename = 'test_singleton_OUTPUT.hdf5'
+hdfile = hp.write_to_file(outputfilename,data,comp_type='gzip',comp_opts=9)
 
+################################################################################
+# Reading in file
+################################################################################
+inputfilename = outputfilename
+
+data,event = hp.hd5events(inputfilename)
+
+#print("----------------")
+#print(data)
+#print("----------------")
+
+nevents = data['nevents']
+#print("nevents: ",nevents)
+
+for i in range(0,nevents):
+    
+    hp.get_event(event,data,n=i)
+
+    t = event['time']
+    rn = event['runnum']
+    print('{0:f}'.format(t), rn)
+
+    print(event['jet/e'])

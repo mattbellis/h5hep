@@ -262,8 +262,43 @@ def fill(data,event):
             '''
         else:
             # This is for counters and SINGLETONS
-            data[key].append(event[key])
+            if event[key] == None and key in data['groups']['_SINGLETON_']:
+                print("\n\033[1m%s\033[0m is part of the SINGLETON group and is expected to have a value for each event." % (key))
+                print("However it is None...exiting.\n")
+                exit()
+            else:
+                data[key].append(event[key])
 
+
+################################################################################
+def convert_list_and_key_to_string_data(datalist,key):
+
+    """ Converts data dictionary to a string
+
+    Args:
+	**datalist** (list): A list to be saved as a string.
+
+    Returns:
+	**key** (string): We will assume that this will be unpacked as a dictionary,
+                      and this will be the key for the list in that dictionary.
+
+    """
+
+    a = np.string_(key)
+
+    mydataset = []
+    b = np.string_("")
+    nvals = len(datalist)
+    for i,val in enumerate(datalist):
+        #print(val,type(val))
+        b += np.string_(val)
+        if i<nvals-1:
+            b += np.string_("__:__")
+    mydataset.append([a,b])
+
+    return mydataset
+
+################################################################################
 
 ################################################################################
 def convert_dict_to_string_data(dictionary):
@@ -326,6 +361,15 @@ def write_to_file(filename,data,comp_type=None,comp_opts=None,force_single_preci
                                  compression=comp_type, \
                                  compression_opts=comp_opts)
 
+    # Convert this to a 2xN array for writing to the hdf5 file. 
+    # This has the groups and the datasets in them.
+    mydataset = convert_list_and_key_to_string_data(data['groups']['_SINGLETON_'],'_SINGLETONGROUP_')
+    dset = hdoutfile.create_dataset('_SINGLETONGROUP_', \
+                                 data = mydataset, \
+                                 dtype='S256', \
+                                 compression=comp_type, \
+                                 compression_opts=comp_opts)
+
     for group in groups:
 
         #print(group)
@@ -338,7 +382,12 @@ def write_to_file(filename,data,comp_type=None,comp_opts=None,force_single_preci
         #print(datasets)
 
         for dataset in datasets:
-            name = "%s/%s" % (group,dataset)
+
+            name = None
+            if group=="_SINGLETON_" and dataset is not "INDEX":
+                name = dataset
+            else:
+                name = "%s/%s" % (group,dataset)
         
             x = data[name]
             if type(x) == list:
