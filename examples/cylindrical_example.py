@@ -51,7 +51,7 @@ for i in range(0,nevents):
     event['pixels/npixels'] = npix
 
     # Add the event to the matrix dictionary
-    hp.fill(data,event)
+    hp.pack(data,event)
 
     # Clear the event matrix for the next iteration
     hp.clear_event(event)
@@ -75,7 +75,7 @@ fig = plt.figure()
 
 for i in range(0,nevents):
     
-    hp.get_event(event,data,n=i)
+    hp.unpack(event,data,n=i)
 
     npixels = event['pixels/npixels']
     #npixels = data['pixels/npixels'][i]

@@ -52,7 +52,7 @@ for i in range(0,nmat):
     event['pixels/npixels'] = r
     
     # Add the event to the matrix dictionary
-    hp.fill(data,event)
+    hp.pack(data,event)
 
     # Clear the event matrix for the next iteration
     hp.clear_event(event)
@@ -74,7 +74,7 @@ print("nevents: ",nevents)
 fig = plt.figure(figsize=(10,10))
 for i in range(0,nevents):
 
-    hp.get_event(event,data,n=i)
+    hp.unpack(event,data,n=i)
 
     print(event.keys())
 

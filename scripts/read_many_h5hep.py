@@ -33,7 +33,7 @@ for nfiles in range(0,30):
         if i%10000==0:
             print(i)
 
-        hp.get_event(event,data,n=i)
+        hp.unpack(event,data,n=i)
 
         energy = event['jet/e']
 

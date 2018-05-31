@@ -44,7 +44,7 @@ for i in range(0,nevents):
     if i%10000==0:
         print(i)
 
-    hp.get_event(event,data,n=i)
+    hp.unpack(event,data,n=i)
 
     #print(event['jet/njet'])
 

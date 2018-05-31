@@ -163,7 +163,7 @@ def hd5events(filename=None,verbose=False,desired_datasets=None,subset=None):
 
 
 ################################################################################
-def get_event(event,data,n=0):
+def unpack(event,data,n=0):
 
     """ Fills the event dictionary with selected events.
 

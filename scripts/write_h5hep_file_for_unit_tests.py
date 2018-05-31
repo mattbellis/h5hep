@@ -28,7 +28,7 @@ def write_h5hep_file_for_unit_tests():
             event['jet/py'].append(np.random.random())
             event['jet/pz'].append(np.random.random())
 
-        fill(data,event)
+        pack(data,event)
 
     print("Writing the file...")
     #hdfile = write_to_file('output.hdf5',data)
