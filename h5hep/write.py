@@ -17,6 +17,12 @@ def initialize():
     data['groups'] = {}
     data['datasets_and_counters'] = {}
     data['list_of_counters'] = []
+
+    # For singleton entries, variables with only one entry per event.
+    data['groups']['_SINGLETON_'] = ['INDEX']
+    data['datasets_and_counters']['_SINGLETON_'] = '_SINGLETON_/INDEX'
+    data['list_of_counters'].append('_SINGLETON_/INDEX')
+    data['_SINGLETON_/INDEX'] = []
     return data
 
 ################################################################################
@@ -62,6 +68,8 @@ def create_single_event(data):
     for k in data.keys():
         if k[-5:] == 'index':
             event[k] = data[k]
+        elif k in data['groups']['_SINGLETON_']:
+            event[k] = None
         elif k in data['list_of_counters']:
             event[k] = 0
         else:
@@ -156,13 +164,32 @@ def create_dataset(data, datasets, group=None, dtype=None):
         print("You need to assign this dataset(s) to a group!")
         print("Groups are not added")
         print("-----------------------------------------------")
-        return -1
+
+        if type(datasets) != list:
+            datasets = [datasets]
+
+        for dataset in datasets:
+            keyfound = False
+            for k in data['groups']['_SINGLETON_']:
+                if dataset == k:
+                    print("\033[1m%s\033[0m is already in the dictionary!" % (dataset))
+                    keyfound = True
+            if keyfound==False:
+                print("Adding dataset \033[1m%s\033[0m to the dictionary as a SINGLETON." % (dataset))
+                data['groups']['_SINGLETON_'].append(dataset)
+                data[dataset] = []
+                #counter_name = "%s/%s" % (group,counter)
+                data['datasets_and_counters'][dataset] = '_SINGLETON_/INDEX'
+
+        return 0
 
     # Put the counter in the dictionary first.
     keyfound = False
     for k in data['groups']:
         if group == k:
             keyfound = True
+
+    # NEED TO FIX THIS PART SO THAT IT FINDS THE RIGHT COUNTER FROM THE GROUP
     if keyfound == False:
         print("Your group, \033[1m%s\033[0m is not in the dictionary yet!" % (group))
         counter = "n%s" % (group)
@@ -189,6 +216,8 @@ def create_dataset(data, datasets, group=None, dtype=None):
             counter = data['datasets_and_counters'][group]
             #counter_name = "%s/%s" % (group,counter)
             data['datasets_and_counters'][name] = counter
+
+    return 0
     
         
 ################################################################################
@@ -211,6 +240,11 @@ def fill(data,event):
         if key=='datasets_and_counters' or key=='groups' or key=='list_of_counters':
             continue
 
+        # The singletons will only have 1 entry per event
+        if key=='_SINGLETON_/INDEX':
+            data[key].append(1) 
+            continue
+
         #if key[-5:] == 'counter':
             #continue
         if type(event[key]) == list:
@@ -227,8 +261,44 @@ def fill(data,event):
                     keys.remove(counter)
             '''
         else:
-            data[key].append(event[key])
+            # This is for counters and SINGLETONS
+            if event[key] == None and key in data['groups']['_SINGLETON_']:
+                print("\n\033[1m%s\033[0m is part of the SINGLETON group and is expected to have a value for each event." % (key))
+                print("However it is None...exiting.\n")
+                exit()
+            else:
+                data[key].append(event[key])
 
+
+################################################################################
+def convert_list_and_key_to_string_data(datalist,key):
+
+    """ Converts data dictionary to a string
+
+    Args:
+	**datalist** (list): A list to be saved as a string.
+
+    Returns:
+	**key** (string): We will assume that this will be unpacked as a dictionary,
+                      and this will be the key for the list in that dictionary.
+
+    """
+
+    a = np.string_(key)
+
+    mydataset = []
+    b = np.string_("")
+    nvals = len(datalist)
+    for i,val in enumerate(datalist):
+        #print(val,type(val))
+        b += np.string_(val)
+        if i<nvals-1:
+            b += np.string_("__:__")
+    mydataset.append([a,b])
+
+    return mydataset
+
+################################################################################
 
 ################################################################################
 def convert_dict_to_string_data(dictionary):
@@ -291,6 +361,15 @@ def write_to_file(filename,data,comp_type=None,comp_opts=None,force_single_preci
                                  compression=comp_type, \
                                  compression_opts=comp_opts)
 
+    # Convert this to a 2xN array for writing to the hdf5 file. 
+    # This has the groups and the datasets in them.
+    mydataset = convert_list_and_key_to_string_data(data['groups']['_SINGLETON_'],'_SINGLETONGROUP_')
+    dset = hdoutfile.create_dataset('_SINGLETONGROUP_', \
+                                 data = mydataset, \
+                                 dtype='S256', \
+                                 compression=comp_type, \
+                                 compression_opts=comp_opts)
+
     for group in groups:
 
         #print(group)
@@ -300,8 +379,15 @@ def write_to_file(filename,data,comp_type=None,comp_opts=None,force_single_preci
 
         datasets = data['groups'][group]
 
+        #print(datasets)
+
         for dataset in datasets:
-            name = "%s/%s" % (group,dataset)
+
+            name = None
+            if group=="_SINGLETON_" and dataset is not "INDEX":
+                name = dataset
+            else:
+                name = "%s/%s" % (group,dataset)
         
             x = data[name]
             if type(x) == list:

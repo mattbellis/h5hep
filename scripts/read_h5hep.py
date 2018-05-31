@@ -10,7 +10,7 @@ import sys
 filename = sys.argv[1]
 
 #data,event = hp.hd5events(filename,subset=(0,100000))
-data,event = hp.hd5events(filename,subset=10000)
+data,event = hp.hd5events(filename,verbose=False)#,subset=10000)
 #data,event = hp.hd5events(filename,desired_datasets=['jet','muon'])
 #data,event = hp.hd5events(filename,desired_datasets=['jet'])
 #data,event = hp.hd5events(filename,desired_datasets=['jet','muon'],subset=(0,100000))
@@ -20,10 +20,17 @@ data,event = hp.hd5events(filename,subset=10000)
 nevents = data['nevents']
 print("nevents: ",nevents)
 
-print(type(data),type(event))
+#print(type(data),type(event))
 
 energies = []
 
+#print("A")
+#print(data.keys())
+#print(data)
+#
+#print("B")
+#print(event.keys())
+#print(event)
 #x = data['jet/e']
 
 # Print out what has been read in from the files.
@@ -38,6 +45,8 @@ for i in range(0,nevents):
         print(i)
 
     hp.get_event(event,data,n=i)
+
+    #print(event['jet/njet'])
 
     energy = event['jet/e']
 

@@ -48,11 +48,13 @@ def test_clear_event():
 
 def test_create_single_event():
 
-    filename = "./test_data/FOR_TESTS.hdf5"
-    desired_datasets = ['jet','muon']
-    subset = 1000
+    data = hp.initialize()
 
-    data, event = hp.hd5events(filename, False, desired_datasets, subset)
+    hp.create_group(data,'jet',counter='njet')
+    hp.create_dataset(data,['e','px','py','pz'],group='jet',dtype=float)
+
+    hp.create_group(data,'muons',counter='nmuon')
+    hp.create_dataset(data,['e','px','py','pz'],group='muons',dtype=float)
 
     test_event = hp.create_single_event(data)
 
@@ -61,29 +63,26 @@ def test_create_single_event():
 
 def test_create_group():
 
-    filename = "./test_data/FOR_TESTS.hdf5"
-    desired_datasets = ['jet','muon']
-    subset = 1000
+    data = hp.initialize()
+    hp.create_group(data,'jet',counter='njet')
 
-    data, test_event = hp.hd5events(filename, False, desired_datasets, subset)
+    assert isEmpty(data['groups']) == False
+    assert 'jet/njet' in data.keys()
 
-    test_key = "test_key"
-
-    hp.create_group(test_event, test_key)
-
-    assert isEmpty(test_event) == False
 
 def test_create_dataset():
 
-    filename = "./test_data/FOR_TESTS.hdf5"
-    desired_datasets = ['jet','muon']
-    subset = 1000
+    data = hp.initialize()
+    hp.create_group(data,'jet',counter='njet')
+    hp.create_dataset(data,['e','px','py','pz'],group='jet',dtype=float)
 
-    test_event = {}
 
-    test = hp.create_dataset(test_event, desired_datasets)
-
-    assert isEmpty(test_event) == False
+    assert isEmpty(data['groups']) == False
+    assert 'jet/njet' in data.keys()
+    assert 'jet/e' in data.keys()
+    assert 'jet/px' in data.keys()
+    assert 'jet/e' in data['datasets_and_counters'].keys()
+    assert data['datasets_and_counters']['jet/e'] == 'jet/njet'
 
 
 

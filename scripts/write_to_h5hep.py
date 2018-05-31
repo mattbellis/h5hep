@@ -15,7 +15,7 @@ create_dataset(data,['e','px','py','pz'],group='muons',dtype=float)
 event = create_single_event(data)
 
 #'''
-for i in range(0,100000):
+for i in range(0,1000):
 
     clear_event(event)
 
