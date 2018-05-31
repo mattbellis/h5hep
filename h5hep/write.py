@@ -47,13 +47,13 @@ def clear_event(data):
 ################################################################################
 def create_single_event(data):
 
-    """ Creates an event dictionary that will be used to fill the overall dataset
+    """ Creates a dictionary with keys to be filled with data at a later time
 
     Args:
-	**data** (dict): Data dictionary to be used to fill event dictionary
+	**data** (dict): Data dictionary without event information to be used to fill event dictionary with keys
 
     Returns:
-	**event** (dict): The new event dictionary
+	**event** (dict): The new event dictionary with keys and no event information
 
     """
 
