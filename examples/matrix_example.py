@@ -12,7 +12,7 @@ from matplotlib import colors
 ###################################################
 
 # Number of matrices
-nmat = 10
+nmat = 9
 
 # Assign matrix dimensions
 x_size = 25
@@ -21,8 +21,8 @@ x_size = int(x_size)
 y_size = int(y_size)
 
 # Subplot size for later
-px_size = 2
-py_size = 5
+px_size = 3
+py_size = 3
 
 # Initialize the data dictionary for a single matrix
 data = hp.initialize()
@@ -71,7 +71,7 @@ nevents = data['nevents']
 print(data)
 print("nevents: ",nevents)
 #nevents = data['nevents']
-
+fig = plt.figure(figsize=(10,10))
 for i in range(0,nevents):
 
     hp.get_event(event,data,n=i)
@@ -85,14 +85,14 @@ for i in range(0,nevents):
 
     grid = np.zeros((x_size,y_size))
 
-    for i in range(npixels):
-        grid[x[i]-1,y[i]-1] = d[i]
+    for j in range(npixels):
+        grid[x[j]-1,y[j]-1] = d[j]
 
     # create discrete colormap
     #cmap = colors.ListedColormap(['red', 'blue'])
     cmap = plt.get_cmap('plasma')
 
-    fig, ax = plt.subplots()
+    ax = fig.add_subplot(px_size,py_size,i+1)
     ax.imshow(grid, cmap=cmap)
 
     # draw gridlines
@@ -102,13 +102,9 @@ for i in range(0,nevents):
 
     ax.set_xticklabels(range(0,x_size))
     ax.set_yticklabels(range(0,y_size))
-
-
+    plt.tight_layout()
 
 plt.show()
-
-
-
 
 
 
