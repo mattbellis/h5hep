@@ -77,7 +77,7 @@ nevents = data['nevents']
 #print(data)
 #print("nevents: ",nevents)
 
-fig = plt.figure()
+fig = plt.figure(figsize=(10,10))
 
 for i in range(0,nevents):
     
@@ -93,19 +93,19 @@ for i in range(0,nevents):
     x = (r+1)*np.cos(theta)
     y = (r+1)*np.sin(theta)
     
-    x1 = np.linspace(-1,1,100)
-    y1 = np.linspace(-1,1,100)
-    z1 = np.linspace(0,10,100)
+    #x1 = np.linspace(-1,1,100)
+    #y1 = np.linspace(-1,1,100)
+    #z1 = np.linspace(0,10,100)
 
-    zipped = zip(x,y,z,d)
-    sorted(zipped, key=lambda g: g[2])
+    #zipped = zip(x,y,z,d)
+    #sorted(zipped, key=lambda g: g[2])
 
     ax = fig.add_subplot(2, 2, i+1, projection='3d')
     ax.scatter(x,y,z,c=d, alpha=0.2)
     #ax.scatter(x,y,z,c=r, alpha=0.2)
     #ax.plot_surface(x1,y1,z1)
     #ax.plot_surface(x1,y1,z1)
-    ax.set_zlim(0, 10)
+    #ax.set_zlim(0, 10)
 
 plt.show()
 

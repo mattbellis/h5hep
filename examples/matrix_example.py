@@ -12,7 +12,7 @@ from matplotlib import colors
 ###################################################
 
 # Number of matrices
-nmat = 9
+nmat = 4
 
 # Assign matrix dimensions
 x_size = 25
@@ -21,8 +21,8 @@ x_size = int(x_size)
 y_size = int(y_size)
 
 # Subplot size for later
-px_size = 3
-py_size = 3
+px_size = 2
+py_size = 2
 
 # Initialize the data dictionary for a single matrix
 data = hp.initialize()
