@@ -9,11 +9,11 @@ import sys
 
 filename = sys.argv[1]
 
-#data,event = hp.hd5events(filename,subset=(0,100000))
-data,event = hp.hd5events(filename,verbose=False)#,subset=10000)
-#data,event = hp.hd5events(filename,desired_datasets=['jet','muon'])
-#data,event = hp.hd5events(filename,desired_datasets=['jet'])
-#data,event = hp.hd5events(filename,desired_datasets=['jet','muon'],subset=(0,100000))
+#data,event = hp.load(filename,subset=(0,100000))
+data,event = hp.load(filename,verbose=False)#,subset=10000)
+#data,event = hp.load(filename,desired_datasets=['jet','muon'])
+#data,event = hp.load(filename,desired_datasets=['jet'])
+#data,event = hp.load(filename,desired_datasets=['jet','muon'],subset=(0,100000))
 
 #print(data['list_of_counters'])
 

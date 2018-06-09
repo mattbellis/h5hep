@@ -26,7 +26,7 @@ def isEmpty(dictionary):
     return test
 
 
-def test_hd5events():
+def test_load():
 
     #write_h5hep_file_for_unit_tests()
 
@@ -36,7 +36,7 @@ def test_hd5events():
     desired_datasets = ['jet','muon']
     subset = 1000
 
-    test_data,test_event = hp.hd5events(filename, False, desired_datasets, subset)
+    test_data,test_event = hp.load(filename, False, desired_datasets, subset)
 
     assert isinstance(test_data, dict)
     assert isinstance(test_event, dict)
@@ -52,7 +52,7 @@ def test_unpack():
     desired_datasets = ['jet','muon']
     subset = 1000
 
-    event, data = hp.hd5events(filename, False, desired_datasets, subset)
+    event, data = hp.load(filename, False, desired_datasets, subset)
 
     hp.unpack(data, event)
 

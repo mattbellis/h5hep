@@ -72,7 +72,7 @@ hdfile = hp.write_to_file(filename,data,comp_type='gzip',comp_opts=9)
 ################
 # Read from file
 ################
-data,event = hp.hd5events(filename)
+data,event = hp.load(filename)
 nevents = data['nevents']
 #print(data)
 #print("nevents: ",nevents)

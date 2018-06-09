@@ -49,7 +49,7 @@ hdfile = hp.write_to_file(outputfilename,data,comp_type='gzip',comp_opts=9)
 ################################################################################
 inputfilename = outputfilename
 
-data,event = hp.hd5events(inputfilename)
+data,event = hp.load(inputfilename)
 
 #print("----------------")
 #print(data)

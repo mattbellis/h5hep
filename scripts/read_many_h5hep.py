@@ -13,7 +13,7 @@ energies = []
 
 for nfiles in range(0,30):
 
-    data,event = hp.hd5events(filename)
+    data,event = hp.load(filename)
 
     # Print out what has been read in from the files.
     '''

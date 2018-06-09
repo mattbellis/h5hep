@@ -44,7 +44,7 @@ def test_clear_event():
     desired_datasets = ['jet','muon']
     subset = 1000
 
-    data, event = hp.hd5events(filename, False, desired_datasets, subset)
+    data, event = hp.load(filename, False, desired_datasets, subset)
 
     hp.clear_event(event)
 

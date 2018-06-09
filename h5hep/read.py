@@ -6,7 +6,7 @@ import matplotlib.pylab as plt
 import time
 
 ################################################################################
-def hd5events(filename=None,verbose=False,desired_datasets=None,subset=None):
+def load(filename=None,verbose=False,desired_datasets=None,subset=None):
 
     """ Reads all, or a subset of the data, from the HDF5 file to fill a data dictionary.
     Returns an empty dictionary to be filled later with select events.
