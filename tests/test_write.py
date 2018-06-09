@@ -30,7 +30,11 @@ def test_initialize():
     test_data = hp.initialize()
 
     assert isinstance(test_data, dict)
-    assert isEmpty(test_data) == True
+    assert test_data['groups']['_SINGLETON_'] ==  ['INDEX']
+    assert test_data['datasets_and_counters']['_SINGLETON_'] == '_SINGLETON_/INDEX'
+    assert test_data['list_of_counters'] == ['_SINGLETON_/INDEX']
+    assert test_data['_SINGLETON_/INDEX'] == []
+
 
 def test_clear_event():
 	

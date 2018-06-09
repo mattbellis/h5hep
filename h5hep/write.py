@@ -53,10 +53,11 @@ def clear_event(data):
 ################################################################################
 def create_single_event(data):
 
-    """ Creates a dictionary with keys to be filled with data at a later time
+    """ Creates an event dictionary that will be used to collect data and then
+    packed into the the master data dictionary.
 
     Args:
-	**data** (dict): Data dictionary without event information to be used to fill event dictionary with keys
+	**data** (dict): Data dictionary that will hold all the data from the events.
 
     Returns:
 	**event** (dict): The new event dictionary with keys and no event information
@@ -221,14 +222,16 @@ def create_dataset(data, datasets, group=None, dtype=None):
     
         
 ################################################################################
-def fill(data,event):
+def pack(data,event):
 
-    """ Fills an event with given data
+    """ Takes the data from an event and packs it into the data dictionary, 
+    intelligently, so that it can be stored and extracted efficiently. 
+    (This is analagous to the ROOT TTree::Fill() member function.
 
     Args:
-	**data** (dict): Data to be added to event
+	**data** (dict): Data dictionary to hold the entire dataset.
 
-	**event** (dict): Event to be filled
+	**event** (dict): Event to be packed into data.
 
     """
 

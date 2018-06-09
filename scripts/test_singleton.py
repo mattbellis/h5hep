@@ -35,7 +35,7 @@ for i in range(0,10):
         event['jet/py'].append(np.random.random())
         event['jet/pz'].append(np.random.random())
 
-    hp.fill(data,event)
+    hp.pack(data,event)
 
 #print(data)
 
@@ -60,7 +60,7 @@ nevents = data['nevents']
 
 for i in range(0,nevents):
     
-    hp.get_event(event,data,n=i)
+    hp.unpack(event,data,n=i)
 
     t = event['time']
     rn = event['runnum']

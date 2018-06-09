@@ -44,7 +44,7 @@ def test_hd5events():
     assert isEmpty(test_event) == True
     assert isEmpty(test_data) == False
 
-def test_get_event():
+def test_unpack():
 	
     # This assumes you run nosetests from the h5hep directory and not 
     # the tests directory.
@@ -54,7 +54,7 @@ def test_get_event():
 
     event, data = hp.hd5events(filename, False, desired_datasets, subset)
 
-    hp.get_event(data, event)
+    hp.unpack(data, event)
 
     assert isEmpty(event) == False
 

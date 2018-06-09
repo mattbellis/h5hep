@@ -101,7 +101,7 @@ for i in range(0,nevents):
         event['photon/pz'].append(pz)
         event['photon/e'].append(energy)
         
-    hp.fill(data,event)
+    hp.pack(data,event)
 
 print("Writing the file...")
 #hdfile = write_to_file('output.hdf5',data)

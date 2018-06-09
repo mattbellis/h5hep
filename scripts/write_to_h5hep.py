@@ -28,7 +28,7 @@ for i in range(0,1000):
         event['jet/py'].append(np.random.random())
         event['jet/pz'].append(np.random.random())
 
-    fill(data,event)
+    pack(data,event)
 
 print("Writing the file...")
 #hdfile = write_to_file('output.hdf5',data)

@@ -12,7 +12,7 @@ from matplotlib import colors
 ###################################################
 
 # Number of matrices
-nmat = 9
+nmat = 4
 
 # Assign matrix dimensions
 x_size = 25
@@ -21,8 +21,8 @@ x_size = int(x_size)
 y_size = int(y_size)
 
 # Subplot size for later
-px_size = 3
-py_size = 3
+px_size = 2
+py_size = 2
 
 # Initialize the data dictionary for a single matrix
 data = hp.initialize()
@@ -52,7 +52,7 @@ for i in range(0,nmat):
     event['pixels/npixels'] = r
     
     # Add the event to the matrix dictionary
-    hp.fill(data,event)
+    hp.pack(data,event)
 
     # Clear the event matrix for the next iteration
     hp.clear_event(event)
@@ -74,7 +74,7 @@ print("nevents: ",nevents)
 fig = plt.figure(figsize=(10,10))
 for i in range(0,nevents):
 
-    hp.get_event(event,data,n=i)
+    hp.unpack(event,data,n=i)
 
     print(event.keys())
 
