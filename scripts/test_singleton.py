@@ -55,10 +55,10 @@ data,event = hp.load(inputfilename)
 #print(data)
 #print("----------------")
 
-nevents = data['nevents']
-#print("nevents: ",nevents)
+nentries = data['nentries']
+#print("nentries: ",nentries)
 
-for i in range(0,nevents):
+for i in range(0,nentries):
     
     hp.unpack(event,data,n=i)
 

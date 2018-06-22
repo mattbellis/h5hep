@@ -40,11 +40,11 @@ def load(filename=None,verbose=False,desired_datasets=None,subset=None):
     ourdata['list_of_counters'] = []
     ourdata['all_datasets'] = []
 
-    ourdata['nevents'] = f.attrs['nevents']
+    ourdata['nentries'] = f.attrs['nentries']
     if subset is not None:
         if type(subset) == int:
             subset = (0,subset)
-        ourdata['nevents'] = subset[1] - subset[0]
+        ourdata['nentries'] = subset[1] - subset[0]
 
     event = {}
 

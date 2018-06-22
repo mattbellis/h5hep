@@ -17,8 +17,8 @@ data,event = hp.load(filename,verbose=False)#,subset=10000)
 
 #print(data['list_of_counters'])
 
-nevents = data['nevents']
-print("nevents: ",nevents)
+nentries = data['nentries']
+print("nentries: ",nentries)
 
 #print(type(data),type(event))
 
@@ -39,7 +39,7 @@ for key in event.keys():
     print(key)
 '''
 
-for i in range(0,nevents):
+for i in range(0,nentries):
 
     if i%10000==0:
         print(i)

@@ -405,23 +405,23 @@ def write_to_file(filename,data,comp_type=None,comp_opts=None,force_single_preci
 
     # Get the number of events
     counters = data['list_of_counters']
-    nevents = -1
+    nentries = -1
     prevcounter = None
     for i,countername in enumerate(counters):
         ncounter = len(data[countername])
         print("%-32s has %-12d entries" % (countername,ncounter))
-        if i>0 and ncounter != nevents: 
+        if i>0 and ncounter != nentries: 
             print("-------- WARNING -----------")
             print("%s and %s have differing numbers of entries!" % (countername,prevcounter))
             print("-------- WARNING -----------")
             # SHOULD WE EXIT ON THIS?
 
-        if nevents < ncounter:
-            nevents = ncounter
+        if nentries < ncounter:
+            nentries = ncounter
 
         prevcounter = countername
 
-    hdoutfile.attrs['nevents'] = nevents
+    hdoutfile.attrs['nentries'] = nentries
     hdoutfile.close()
 
     return hdoutfile

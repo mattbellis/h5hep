@@ -21,14 +21,14 @@ for nfiles in range(0,30):
         print(key)
     '''
 
-    nevents = data['nevents']
-    print("nevents: ",nevents)
+    nentries = data['nentries']
+    print("nentries: ",nentries)
     print(type(data),type(event))
 
     energies += data['jet/e'].tolist()
 
     '''
-    for i in range(0,nevents):
+    for i in range(0,nentries):
 
         if i%10000==0:
             print(i)
