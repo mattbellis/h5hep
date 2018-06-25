@@ -198,4 +198,22 @@ def unpack(event,data,n=0):
                 event[key] = data[key][index:index+nobjs]
 
 ################################################################################
+def get_nentries(filename):
+
+    """ Get the number of entries in the file.
+
+    """
+
+    f = h5.File(filename,'r+')
+
+    a = f.attrs
+
+    if a.__contains__('nentries'):
+        nentries = a.get('nentries')
+        f.close()
+        return nentries
+    else:
+        print("\nFile does not contain the attribute, \"nentries\"\n")
+        f.close()
+        return None
 

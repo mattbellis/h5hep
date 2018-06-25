@@ -59,4 +59,16 @@ def test_unpack():
     assert isEmpty(event) == False
 
 
+def test_get_nentries():
+	
+    # This assumes you run nosetests from the h5hep directory and not 
+    # the tests directory.
+    filename = "./test_data/FOR_TESTS.hdf5"
+
+    nentries = hp.get_nentries(filename)
+
+    assert nentries == 10
+
+
+
 
