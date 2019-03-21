@@ -1,4 +1,5 @@
 name: h5hep-environment
 dependencies:
   - numpy
+  - matplotlib  
   - h5py
