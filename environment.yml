@@ -1,0 +1,4 @@
+name: h5hep-environment
+dependencies:
+  - numpy
+  - h5py

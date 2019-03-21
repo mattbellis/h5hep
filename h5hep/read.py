@@ -1,10 +1,6 @@
 import h5py as h5
 import numpy as np
 
-import matplotlib.pylab as plt
-
-import time
-
 ################################################################################
 def load(filename=None,verbose=False,desired_datasets=None,subset=None):
 
