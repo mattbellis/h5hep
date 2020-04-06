@@ -8,18 +8,18 @@ filename = sys.argv[1]
 
 # Open the file
 f = ROOT.TFile(filename)
-f.ls() # Print out what's in it.
+f.ls()  # Print out what's in it.
 
 # Pull out the tree
 tree = f.Get("T")
-tree.Print() # Print what branches it has
+tree.Print()  # Print what branches it has
 
 # Event loop
 nev = tree.GetEntries()
 
 energies = []
 
-for n in range (nev):
+for n in range(nev):
     tree.GetEntry(n)
 
     for i in range(tree.njet):
@@ -28,8 +28,6 @@ for n in range (nev):
 print(len(energies))
 
 plt.figure()
-plt.hist(energies,bins=100,range=(0,1))
+plt.hist(energies, bins=100, range=(0, 1))
 
-#plt.show()
-
-
+# plt.show()

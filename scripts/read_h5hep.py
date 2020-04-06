@@ -9,57 +9,57 @@ import sys
 
 filename = sys.argv[1]
 
-#data,event = hp.load(filename,subset=(0,100000))
-data,event = hp.load(filename,verbose=False)#,subset=10000)
-#data,event = hp.load(filename,desired_datasets=['jet','muon'])
-#data,event = hp.load(filename,desired_datasets=['jet'])
-#data,event = hp.load(filename,desired_datasets=['jet','muon'],subset=(0,100000))
+# data,event = hp.load(filename,subset=(0,100000))
+data, event = hp.load(filename, verbose=False)  # ,subset=10000)
+# data,event = hp.load(filename,desired_datasets=['jet','muon'])
+# data,event = hp.load(filename,desired_datasets=['jet'])
+# data,event = hp.load(filename,desired_datasets=['jet','muon'],subset=(0,100000))
 
-#print(data['list_of_counters'])
+# print(data['list_of_counters'])
 
-nentries = data['nentries']
-print("nentries: ",nentries)
+nentries = data["nentries"]
+print("nentries: ", nentries)
 
-#print(type(data),type(event))
+# print(type(data),type(event))
 
 energies = []
 
-#print("A")
-#print(data.keys())
-#print(data)
+# print("A")
+# print(data.keys())
+# print(data)
 #
-#print("B")
-#print(event.keys())
-#print(event)
-#x = data['jet/e']
+# print("B")
+# print(event.keys())
+# print(event)
+# x = data['jet/e']
 
 # Print out what has been read in from the files.
-'''
+"""
 for key in event.keys():
     print(key)
-'''
+"""
 
-for i in range(0,nentries):
+for i in range(0, nentries):
 
-    if i%10000==0:
+    if i % 10000 == 0:
         print(i)
 
-    hp.unpack(event,data,n=i)
+    hp.unpack(event, data, n=i)
 
-    #print(event['jet/njet'])
+    # print(event['jet/njet'])
 
-    energy = event['jet/e']
+    energy = event["jet/e"]
 
-    '''
+    """
     for e in energy:
         energies.append(e)
-    '''
+    """
     energies += energy.tolist()
 
 
 print(len(energies))
 
 plt.figure()
-plt.hist(energies,bins=100,range=(0,500))
+plt.hist(energies, bins=100, range=(0, 500))
 
-#plt.show()
+# plt.show()

@@ -20,6 +20,7 @@ setup(
     #cmdclass="0.9", # Is this right???
     description='File format using HDF5 for heterogeneous length data entries.',
     url='https://github.com/mattbellis/h5hep',
+    download_url='https://github.com/mattbellis/h5hep/archive/v0.9.tar.gz',
     author='Matt Bellis',
     author_email='mbellis@siena.edu',
     license='MIT',

@@ -1,23 +1,23 @@
 import numpy as np
-import ROOT 
+import ROOT
 import sys
 from array import array
 
-f = ROOT.TFile( 'test.root', 'RECREATE' )
-tree = ROOT.TTree( 'T', 'My tree' )
+f = ROOT.TFile("test.root", "RECREATE")
+tree = ROOT.TTree("T", "My tree")
 
-njet = array('i', [-1])
-tree.Branch('njet', njet, 'njet/I')
-jete = array('f', 16*[-1.])
-tree.Branch('jete', jete, 'jete[njet]/F')
-jetpx = array('f', 16*[-1.])
-tree.Branch('jetpx', jetpx, 'jetpx[njet]/F')
-jetpy = array('f', 16*[-1.])
-tree.Branch('jetpy', jetpy, 'jetpy[njet]/F')
-jetpz = array('f', 16*[-1.])
-tree.Branch('jetpz', jetpz, 'jetpz[njet]/F')
+njet = array("i", [-1])
+tree.Branch("njet", njet, "njet/I")
+jete = array("f", 16 * [-1.0])
+tree.Branch("jete", jete, "jete[njet]/F")
+jetpx = array("f", 16 * [-1.0])
+tree.Branch("jetpx", jetpx, "jetpx[njet]/F")
+jetpy = array("f", 16 * [-1.0])
+tree.Branch("jetpy", jetpy, "jetpy[njet]/F")
+jetpz = array("f", 16 * [-1.0])
+tree.Branch("jetpz", jetpz, "jetpz[njet]/F")
 
-for i in range(0,100000):
+for i in range(0, 100000):
 
     njet[0] = 5
 
@@ -33,4 +33,3 @@ print("Writing the file...")
 tree.Write()
 
 f.Close()
-

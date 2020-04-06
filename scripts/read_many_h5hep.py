@@ -11,23 +11,23 @@ filename = sys.argv[1]
 
 energies = []
 
-for nfiles in range(0,30):
+for nfiles in range(0, 30):
 
-    data,event = hp.load(filename)
+    data, event = hp.load(filename)
 
     # Print out what has been read in from the files.
-    '''
+    """
     for key in event.keys():
         print(key)
-    '''
+    """
 
-    nentries = data['nentries']
-    print("nentries: ",nentries)
-    print(type(data),type(event))
+    nentries = data["nentries"]
+    print("nentries: ", nentries)
+    print(type(data), type(event))
 
-    energies += data['jet/e'].tolist()
+    energies += data["jet/e"].tolist()
 
-    '''
+    """
     for i in range(0,nentries):
 
         if i%10000==0:
@@ -38,7 +38,7 @@ for nfiles in range(0,30):
         energy = event['jet/e']
 
         energies += energy.tolist()
-    '''
+    """
 
     del data
     del event
@@ -47,6 +47,6 @@ for nfiles in range(0,30):
 print(len(energies))
 
 plt.figure()
-plt.hist(energies,bins=100,range=(0,500))
+plt.hist(energies, bins=100, range=(0, 500))
 
-#plt.show()
+# plt.show()
